@@ -24,7 +24,7 @@ public class FetchQSEData {
 	private static final Logger log = LoggerFactory.getLogger(FetchQSEData.class);
 
 	private static final String REST_URL = "http://services.groupkt.com/country/get/all";
-	private static final String MONGODB_URI = "mongodb://alibaba:40chor@ds131512.mlab.com:31512/pine";
+	private static final String MONGODB1_URI = "mongodb://alibaba:40chor@ds131512.mlab.com:31512/pine";
 
 	public static void main(String[] args) {
 		log.debug("Hello world.");
@@ -80,7 +80,7 @@ public class FetchQSEData {
 
 		// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
 
-		MongoClientURI uri = new MongoClientURI(MONGODB_URI);
+		MongoClientURI uri = new MongoClientURI(MONGODB1_URI);
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 
@@ -125,7 +125,7 @@ public class FetchQSEData {
 
 		// Since this is an example, we'll clean up after ourselves.
 
-		songs.drop();
+		// songs.drop();
 
 		// Only close the connection when your app is terminating
 
