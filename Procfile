@@ -1,1 +1,0 @@
-web: java -jar target/fetch-qse-data-1.0-SNAPSHOT.jar
