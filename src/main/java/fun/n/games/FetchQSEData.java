@@ -91,7 +91,7 @@ public class FetchQSEData {
 
 		// Note that the insert method can take either an array or a document.
 
-		songs.insertMany(seedData);
+		// songs.insertMany(seedData);
 
 		/*
 		 * Then we need to give Boyz II Men credit for their contribution to the
