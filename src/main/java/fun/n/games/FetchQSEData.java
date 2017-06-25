@@ -37,7 +37,12 @@ public class FetchQSEData {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			JsonNode fullJsonTree = mapper.readTree(jsonDataAsString);
+			log.debug("Lets check");
+			log.debug(fullJsonTree.toString());
+
 			JsonNode arrayOfCountries = fullJsonTree.get("RestResponse").get("result");
+			log.debug("Lets check again");
+
 			log.debug(arrayOfCountries.asText());
 
 		} catch (JsonProcessingException e) {
