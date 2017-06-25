@@ -14,6 +14,9 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -29,36 +32,20 @@ public class FetchQSEData {
 
 	public static void main(String[] args) {
 
+		String jsonDataAsString = getJSONStringfromRESTUrl(REST_URL);
+
+		ObjectMapper mapper = new ObjectMapper();
 		try {
+			JsonNode fullJsonTree = mapper.readTree(jsonDataAsString);
+			JsonNode arrayOfCountries = fullJsonTree.get("RestResponse").get("result");
+			log.debug(arrayOfCountries.asText());
 
-			HttpURLConnection conn = createConnectionToURL(REST_URL);
-
-			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-			}
-
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-			String output;
-			StringBuffer jsonResponse = new StringBuffer();
-			while ((output = br.readLine()) != null) {
-				jsonResponse.append(output);
-
-			}
-
-			log.debug("This is the JSON object ..");
-			log.debug(jsonResponse.toString());
-
-			conn.disconnect();
-
-		} catch (MalformedURLException e) {
-
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		} catch (IOException e) {
-
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 
 		// ===========
@@ -129,6 +116,40 @@ public class FetchQSEData {
 
 		client.close();
 
+	}
+
+	private static String getJSONStringfromRESTUrl(String restUrl) {
+		StringBuffer jsonResponse = new StringBuffer();
+		HttpURLConnection conn = null;
+
+		try {
+
+			conn = createConnectionToURL(restUrl);
+
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			String output;
+			while ((output = br.readLine()) != null) {
+				jsonResponse.append(output);
+
+			}
+
+			// log.debug("This is the JSON object ..");
+			// log.debug(jsonResponse.toString());
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			conn.disconnect();
+		}
+
+		return jsonResponse.toString();
 	}
 
 	private static HttpURLConnection createConnectionToURL(String restUrl)
