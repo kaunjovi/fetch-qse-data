@@ -43,7 +43,7 @@ public class FetchQSEData {
 			JsonNode arrayOfCountries = fullJsonTree.get("RestResponse").get("result");
 			log.debug("Lets check again");
 
-			log.debug(arrayOfCountries.asText());
+			log.debug(arrayOfCountries.toString());
 
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
