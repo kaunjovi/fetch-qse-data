@@ -44,8 +44,8 @@ public class FetchQSEData {
 			// log.debug("Lets check again");
 			log.debug(arrayOfCountries.toString());
 
-			ObjectMapper mapper1 = new ObjectMapper();
-			Country[] countries = mapper1.readValue(arrayOfCountries.toString(), Country[].class);
+			// ObjectMapper mapper1 = new ObjectMapper();
+			Country[] countries = mapper.readValue(arrayOfCountries.toString(), Country[].class);
 			for (Country country : countries) {
 				log.debug(country.toString());
 
