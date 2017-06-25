@@ -50,7 +50,7 @@
 					<assembleDirectory>target</assembleDirectory>
 					<programs>
 						<program>
-							<mainClass>FetchQSEData</mainClass>
+							<mainClass>fun.n.games.FetchQSEData</mainClass>
 							<name>fetchQSEData</name>
 						</program>
 					</programs>
