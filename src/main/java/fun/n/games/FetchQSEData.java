@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +28,10 @@ public class FetchQSEData {
 	private static final String MONGODB1_URI = "mongodb://alibaba:40chor@ds131512.mlab.com:31512/pine";
 
 	public static void main(String[] args) {
-		log.debug("Hello world.");
 
 		try {
 
-			URL url = new URL(REST_URL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/json");
+			HttpURLConnection conn = createConnectionToURL(REST_URL);
 
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
@@ -43,12 +40,14 @@ public class FetchQSEData {
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
 			String output;
-			log.debug("Fetched from server...");
-
+			StringBuffer jsonResponse = new StringBuffer();
 			while ((output = br.readLine()) != null) {
-				log.debug(output);
+				jsonResponse.append(output);
 
 			}
+
+			log.debug("This is the JSON object ..");
+			log.debug(jsonResponse.toString());
 
 			conn.disconnect();
 
@@ -61,7 +60,6 @@ public class FetchQSEData {
 			e.printStackTrace();
 
 		}
-		log.debug("Hello world. check check.");
 
 		// ===========
 
@@ -131,6 +129,15 @@ public class FetchQSEData {
 
 		client.close();
 
+	}
+
+	private static HttpURLConnection createConnectionToURL(String restUrl)
+			throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL(restUrl);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+		return conn;
 	}
 
 }
