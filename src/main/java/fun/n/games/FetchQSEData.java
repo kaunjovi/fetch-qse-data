@@ -34,30 +34,7 @@ public class FetchQSEData {
 
 		String jsonDataAsString = getJSONStringfromRESTUrl(REST_URL);
 
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			JsonNode fullJsonTree = mapper.readTree(jsonDataAsString);
-			// log.debug("Lets check");
-			// log.debug(fullJsonTree.toString());
-
-			JsonNode arrayOfCountries = fullJsonTree.get("RestResponse").get("result");
-			// log.debug("Lets check again");
-			log.debug(arrayOfCountries.toString());
-
-			// ObjectMapper mapper1 = new ObjectMapper();
-			Country[] countries = mapper.readValue(arrayOfCountries.toString(), Country[].class);
-			for (Country country : countries) {
-				log.debug(country.toString());
-
-			}
-
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Country[] countries = getCountryArrayFromJSON(jsonDataAsString);
 
 		// ===========
 
@@ -126,6 +103,36 @@ public class FetchQSEData {
 		// Only close the connection when your app is terminating
 
 		client.close();
+
+	}
+
+	private static Country[] getCountryArrayFromJSON(String jsonDataAsString) {
+		ObjectMapper mapper = new ObjectMapper();
+		Country[] countries = null;
+		try {
+			JsonNode fullJsonTree = mapper.readTree(jsonDataAsString);
+			// log.debug("Lets check");
+			// log.debug(fullJsonTree.toString());
+
+			JsonNode arrayOfCountries = fullJsonTree.get("RestResponse").get("result");
+			// log.debug("Lets check again");
+			// log.debug(arrayOfCountries.toString());
+
+			// ObjectMapper mapper1 = new ObjectMapper();
+			countries = mapper.readValue(arrayOfCountries.toString(), Country[].class);
+			for (Country country : countries) {
+				log.debug(country.toString());
+
+			}
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return countries;
 
 	}
 
