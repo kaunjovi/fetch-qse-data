@@ -29,6 +29,7 @@ public class FetchQSEData {
 
 	private static final String REST_URL = "http://services.groupkt.com/country/get/all";
 	private static final String MONGODB1_URI = "mongodb://alibaba:40chor@ds131512.mlab.com:31512/pine";
+	private static final String COUNTRIES = "COUNTRIES";
 
 	public static void main(String[] args) {
 
@@ -38,11 +39,17 @@ public class FetchQSEData {
 
 		List<Document> countriesInMongoFormat = generateDocumentListFromCountries(countries);
 
-
-
 		MongoClientURI uri = new MongoClientURI(MONGODB1_URI);
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
+
+		/*
+		 * Connect to mongo db. Connect to the countries. Drop the existing
+		 * Data. Insert the fresh set of data
+		 */
+		MongoCollection<Document> countriesInMongo = db.getCollection(COUNTRIES);
+		countriesInMongo.drop();
+		countriesInMongo.insertMany(countriesInMongoFormat);
 
 		/*
 		 * First we'll add a few songs. Nothing is required to create the songs
