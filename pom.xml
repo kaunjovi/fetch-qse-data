@@ -80,6 +80,10 @@
 							<mainClass>fun.n.games.FetchQSEData</mainClass>
 							<name>fetchQSEData</name>
 						</program>
+						<program>
+							<mainClass>fun.n.games.HaveFun</mainClass>
+							<name>haveFun</name>
+						</program>
 					</programs>
 				</configuration>
 				<executions>
