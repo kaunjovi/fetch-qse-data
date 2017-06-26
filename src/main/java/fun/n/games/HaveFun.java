@@ -27,8 +27,12 @@ public class HaveFun {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			JsonNode fullJsonTree = mapper.readTree(stockDataJson);
-			int count = fullJsonTree.get("count").asInt();
-			log.debug("What is count? [{}]", count);
+			log.debug("Is this an array? [{}]", fullJsonTree.isArray());
+
+			/*
+			 * int count = fullJsonTree.get("count").asInt();
+			 * log.debug("What is count? [{}]", count);
+			 */
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
