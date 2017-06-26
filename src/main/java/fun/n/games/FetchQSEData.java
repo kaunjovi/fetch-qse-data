@@ -36,22 +36,9 @@ public class FetchQSEData {
 
 		Country[] countries = getCountryArrayFromJSON(jsonDataAsString);
 
-		// ===========
+		List<Document> countriesInMongoFormat = generateDocumentListFromCountries(countries);
 
-		// Create seed data
 
-		List<Document> seedData = new ArrayList<Document>();
-
-		seedData.add(new Document("decade", "1970s").append("artist", "Debby Boone")
-				.append("song", "You Light Up My Life").append("weeksAtOne", 10));
-
-		seedData.add(new Document("decade", "1980s").append("artist", "Olivia Newton-John").append("song", "Physical")
-				.append("weeksAtOne", 10));
-
-		seedData.add(new Document("decade", "1990s").append("artist", "Mariah Carey").append("song", "One Sweet Day")
-				.append("weeksAtOne", 16));
-
-		// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
 
 		MongoClientURI uri = new MongoClientURI(MONGODB1_URI);
 		MongoClient client = new MongoClient(uri);
@@ -104,6 +91,21 @@ public class FetchQSEData {
 
 		client.close();
 
+	}
+
+	private static List<Document> generateDocumentListFromCountries(Country[] countries) {
+
+		List<Document> dataInMongoFormat = new ArrayList<Document>();
+
+		int numberOfCountriesConvertedIntoMongoFormat = 0;
+		for (Country c : countries) {
+			dataInMongoFormat.add(new Document("name", c.getName()).append("alpha2_code", c.getAlpha2_code())
+					.append("alpha3_code", c.getAlpha3_code()));
+			numberOfCountriesConvertedIntoMongoFormat++;
+		}
+
+		log.debug("Number of counries converted to Mongo format [{}].", numberOfCountriesConvertedIntoMongoFormat);
+		return dataInMongoFormat;
 	}
 
 	private static Country[] getCountryArrayFromJSON(String jsonDataAsString) {
