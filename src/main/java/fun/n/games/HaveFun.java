@@ -21,6 +21,8 @@ public class HaveFun {
 
 		String stockDataRawString = RestService.getRestDataAsString(stockRestUrl);
 		String stockDataJson = stockDataRawString.substring(3);
+		log.debug("The cleaned up JSON ...");
+		log.debug(stockDataJson);
 
 		ObjectMapper mapper = new ObjectMapper();
 		try {
