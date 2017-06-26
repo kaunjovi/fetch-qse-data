@@ -29,7 +29,7 @@ public class MongoService {
 		 * Data. Insert the fresh set of data
 		 */
 		MongoCollection<Document> tickers = db.getCollection(TICKERS);
-		// tickers.drop();
+		tickers.drop();
 		tickers.insertMany(tickerInMongoFormat);
 
 		client.close();
