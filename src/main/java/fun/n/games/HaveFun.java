@@ -22,7 +22,7 @@ public class HaveFun {
 
 		List<Document> tickerInMongoFormat = DataConverterService.convertJsonArrayToDocumentArray(stockDataJsonString);
 
-		int numberOfStocksUpdated = MongoService.bulkUpsert(tickerInMongoFormat);
+		MongoService.bulkUpsert(tickerInMongoFormat);
 
 	}
 

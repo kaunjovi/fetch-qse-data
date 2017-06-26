@@ -37,7 +37,8 @@ public class DataConverterService {
 
 					// TODO Figure out how to single out a particular column as
 					// id. If that happens we we can upsert in bulk.
-					tickerInMongoFormat.add(new Document("ticker", tickerNode.get("t").asText())
+					tickerInMongoFormat.add(new Document("_id", tickerNode.get("id").asText())
+							.append("ticker", tickerNode.get("t").asText())
 							.append("exchange", tickerNode.get("e").asText())
 							.append("lastPriceTraded", tickerNode.get("l").asText())
 							.append("lastTradeDateTime", tickerNode.get("lt").asText()));
