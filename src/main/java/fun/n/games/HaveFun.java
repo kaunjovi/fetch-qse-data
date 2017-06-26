@@ -20,10 +20,11 @@ public class HaveFun {
 		String stockRestUrl = "http://finance.google.com/finance/info?client=ig&q=NSE:NIFTY,NSE:RELIANCE";
 
 		String stockDataRawString = RestService.getRestDataAsString(stockRestUrl);
+		String stockDataJson = stockDataRawString.substring(3);
 
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			JsonNode fullJsonTree = mapper.readTree(stockDataRawString);
+			JsonNode fullJsonTree = mapper.readTree(stockDataJson);
 			int count = fullJsonTree.get("count").asInt();
 			log.debug("What is count? [{}]", count);
 
